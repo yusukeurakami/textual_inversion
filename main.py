@@ -138,34 +138,34 @@ def get_parser(**parser_kwargs):
     )
 
     parser.add_argument(
-        "--datadir_in_name", 
-        type=str2bool, 
-        nargs="?", 
-        const=True, 
-        default=True, 
+        "--datadir_in_name",
+        type=str2bool,
+        nargs="?",
+        const=True,
+        default=True,
         help="Prepend the final directory in the data_root to the output directory name")
 
-    parser.add_argument("--actual_resume", 
+    parser.add_argument("--actual_resume",
         type=str,
         required=True,
         help="Path to model to actually resume from")
 
-    parser.add_argument("--data_root", 
-        type=str, 
-        required=True, 
+    parser.add_argument("--data_root",
+        type=str,
+        required=True,
         help="Path to directory with training images")
 
-    parser.add_argument("--embedding_manager_ckpt", 
-        type=str, 
-        default="", 
+    parser.add_argument("--embedding_manager_ckpt",
+        type=str,
+        default="",
         help="Initialize embedding manager from a checkpoint")
 
-    parser.add_argument("--placeholder_string", 
-        type=str, 
+    parser.add_argument("--placeholder_string",
+        type=str,
         help="Placeholder string which will be used to denote the concept in future prompts. Overwrites the config options.")
 
-    parser.add_argument("--init_word", 
-        type=str, 
+    parser.add_argument("--init_word",
+        type=str,
         help="Word to use as source for initial token embedding")
 
     return parser
@@ -568,7 +568,7 @@ if __name__ == "__main__":
 
         if opt.datadir_in_name:
             now = os.path.basename(os.path.normpath(opt.data_root)) + now
-            
+
         nowname = now + name + opt.postfix
         logdir = os.path.join(opt.logdir, nowname)
 
@@ -589,7 +589,8 @@ if __name__ == "__main__":
         for k in nondefault_trainer_args(opt):
             trainer_config[k] = getattr(opt, k)
         if not "gpus" in trainer_config:
-            del trainer_config["accelerator"]
+            trainer_config["accelerator"] = "cpu"
+            # del trainer_config["accelerator"]
             cpu = True
         else:
             gpuinfo = trainer_config["gpus"]
@@ -697,9 +698,9 @@ if __name__ == "__main__":
                     # "log_momentum": True
                 }
             },
-            "cuda_callback": {
-                "target": "main.CUDACallback"
-            },
+            # "cuda_callback": {
+            #     "target": "main.CUDACallback"
+            # },
         }
         if version.parse(pl.__version__) >= version.parse('1.4.0'):
             default_callbacks_cfg.update({'checkpoint_callback': modelckpt_cfg})
