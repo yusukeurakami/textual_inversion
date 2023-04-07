@@ -614,7 +614,8 @@ if __name__ == "__main__":
         else:
             model = instantiate_from_config(config.model)
 
-        model.to('cpu')
+        if cpu:
+            model.to('cpu')
         # trainer and callbacks
         trainer_kwargs = dict()
 
@@ -703,6 +704,13 @@ if __name__ == "__main__":
             #     "target": "main.CUDACallback"
             # },
         }
+
+        if not cpu:
+            adding_cuda = {"cuda_callback": {
+                "target": "main.CUDACallback"
+            }}
+            default_callbacks_cfg.update(adding_cuda)
+
         if version.parse(pl.__version__) >= version.parse('1.4.0'):
             default_callbacks_cfg.update({'checkpoint_callback': modelckpt_cfg})
 
