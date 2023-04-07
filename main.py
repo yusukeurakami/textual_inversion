@@ -614,6 +614,7 @@ if __name__ == "__main__":
         else:
             model = instantiate_from_config(config.model)
 
+        model.to('cpu')
         # trainer and callbacks
         trainer_kwargs = dict()
 
