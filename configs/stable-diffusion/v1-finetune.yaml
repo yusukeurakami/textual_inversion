@@ -71,24 +71,25 @@ model:
 
     cond_stage_config:
       target: ldm.modules.encoders.modules.FrozenCLIPEmbedder
+      device: "cuda"
 
 data:
   target: main.DataModuleFromConfig
   params:
     batch_size: 1
-    num_workers: 1
+    num_workers: 8
     wrap: false
     train:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 512
+        size: 256
         set: train
         per_image_tokens: false
         repeats: 100
     validation:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 512
+        size: 256
         set: val
         per_image_tokens: false
         repeats: 10
