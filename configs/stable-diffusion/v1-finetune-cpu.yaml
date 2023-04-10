@@ -77,20 +77,20 @@ model:
 data:
   target: main.DataModuleFromConfig
   params:
-    batch_size: 2
-    num_workers: 2
+    batch_size: 4
+    num_workers: 8
     wrap: false
     train:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 512
+        size: 256 
         set: train
         per_image_tokens: false
         repeats: 100
     validation:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 512
+        size: 256
         set: val
         per_image_tokens: false
         repeats: 10
