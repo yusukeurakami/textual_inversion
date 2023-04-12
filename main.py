@@ -589,7 +589,8 @@ if __name__ == "__main__":
         for k in nondefault_trainer_args(opt):
             trainer_config[k] = getattr(opt, k)
         if not "gpus" in trainer_config:
-            del trainer_config["accelerator"]
+            trainer_config["accelerator"] = "cpu"
+            # del trainer_config["accelerator"]
             cpu = True
         else:
             gpuinfo = trainer_config["gpus"]
@@ -613,6 +614,8 @@ if __name__ == "__main__":
         else:
             model = instantiate_from_config(config.model)
 
+        if cpu:
+            model.to('cpu')
         # trainer and callbacks
         trainer_kwargs = dict()
 
@@ -697,10 +700,17 @@ if __name__ == "__main__":
                     # "log_momentum": True
                 }
             },
-            "cuda_callback": {
-                "target": "main.CUDACallback"
-            },
+            # "cuda_callback": {
+            #     "target": "main.CUDACallback"
+            # },
         }
+
+        if not cpu:
+            adding_cuda = {"cuda_callback": {
+                "target": "main.CUDACallback"
+            }}
+            default_callbacks_cfg.update(adding_cuda)
+
         if version.parse(pl.__version__) >= version.parse('1.4.0'):
             default_callbacks_cfg.update({'checkpoint_callback': modelckpt_cfg})
 
