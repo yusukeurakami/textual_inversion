@@ -71,7 +71,8 @@ model:
 
     cond_stage_config:
       target: ldm.modules.encoders.modules.FrozenCLIPEmbedder
-      device: "cuda"
+      params:
+        device: "cpu"
 
 data:
   target: main.DataModuleFromConfig
@@ -82,7 +83,7 @@ data:
     train:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 256
+        size: 256 
         set: train
         per_image_tokens: false
         repeats: 100
@@ -108,4 +109,4 @@ lightning:
 
   trainer:
     benchmark: True
-    max_steps: 60000
+    max_steps: 6100

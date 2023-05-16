@@ -79,18 +79,18 @@ model:
       params:
         n_embed: 1280
         n_layer: 32
-
+        # device: "cuda"
 
 data:
   target: main.DataModuleFromConfig
   params:
-    batch_size: 4
-    num_workers: 2
+    batch_size: 2
+    num_workers: 8
     wrap: false
     train:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 256
+        size: 256 
         set: train
         per_image_tokens: false
         repeats: 100
@@ -116,4 +116,4 @@ lightning:
 
   trainer:
     benchmark: True
-    max_steps: 6100
+    max_steps: 61000
