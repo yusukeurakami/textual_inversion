@@ -76,20 +76,20 @@ model:
 data:
   target: main.DataModuleFromConfig
   params:
-    batch_size: 4
+    batch_size: 2
     num_workers: 8
     wrap: false
     train:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 256
+        size: 512
         set: train
         per_image_tokens: false
         repeats: 100
     validation:
       target: ldm.data.personalized.PersonalizedBase
       params:
-        size: 256
+        size: 512
         set: val
         per_image_tokens: false
         repeats: 10
@@ -108,4 +108,4 @@ lightning:
 
   trainer:
     benchmark: True
-    max_steps: 60000
+    max_steps: 200000
