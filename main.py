@@ -700,9 +700,9 @@ if __name__ == "__main__":
                     # "log_momentum": True
                 }
             },
-            # "cuda_callback": {
-            #     "target": "main.CUDACallback"
-            # },
+            "cuda_callback": {
+                "target": "main.CUDACallback"
+            },
         }
 
         if not cpu:
