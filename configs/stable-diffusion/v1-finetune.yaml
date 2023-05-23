@@ -108,4 +108,4 @@ lightning:
 
   trainer:
     benchmark: True
-    max_steps: 60000
+    max_steps: 65000

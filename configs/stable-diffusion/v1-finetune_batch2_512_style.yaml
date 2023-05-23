@@ -97,7 +97,7 @@ data:
 lightning:
   modelcheckpoint:
     params:
-      every_n_train_steps: 100
+      every_n_train_steps: 500
   callbacks:
     image_logger:
       target: main.ImageLogger
@@ -108,4 +108,4 @@ lightning:
 
   trainer:
     benchmark: True
-    max_steps: 65000
+    max_steps: 180000
